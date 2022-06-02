@@ -1,37 +1,63 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: darkblue;
-    content: center;
-};
+// trabajo asincrónico 3
 
-h1 {
-    background-color: white;
-};
+let inputPrincipal = document.querySelector(".input");
+let botonAgregar = document.querySelector(".boton-agregar");
+let contenedor =  document.querySelector(".container");
 
-.input-div {
- width: 450px;
- height: 50px;
- margin: 5px;
- padding-top: 0px;
- padding-bottom: 0px;
- padding-left: 20px;
- padding-right: 20px;
- border: 0px;
- border-radius: 10px;
- background-color: white;
- font-size: 18px;
-};
+class Item{
+    constructor(nuevaTarea){
+        this.crearDiv(nuevaTarea)
+    };
 
-.boton-agregar {
- width: 50px;
- height: 50px;
- margin: 5px;
- border: 0px;
- border-radius: 10px;
- background-color: rgb(255, 6, 46);
- color: white;
-};
+// trabajo asincrónico 4
 
-.boton-agregar:hover {
-    opacity: 0.9;
+    crearDiv(nuevaTarea){
+        let inputItem = document.createElement("input");
+        inputItem.disabled = true;
+        inputItem.classList.add("item-input");
+        inputItem.value = nuevaTarea;
+        let divNuevo = document.createElement("div");
+        divNuevo.classList.add("item");
+        let botonEditar = document.createElement("button");
+        botonEditar.innerHTML="<i class='fas fa-lock'></i>";
+        botonEditar.classList.add("boton-editar");
+        let botonRemover = document.createElement("button");
+        botonRemover.innerHTML= "<i class='fas fa-trash'></i>";
+        botonRemover.classList.add("boton-remover");
+        divNuevo.appendChild(inputItem);
+        divNuevo.appendChild(botonEditar);
+        divNuevo.appendChild(botonRemover);
+        contenedor.appendChild(divNuevo);
+
+        // trabajo asincrónico 5
+
+        botonEditar.addEventListener("click", function(){
+            if(inputItem.disabled === true){
+                botonEditar.innerHTML= "<i class='fas fa-lock-open'></i>";
+                inputItem.disabled = false;
+            } else {
+                botonEditar.innerHTML="<i class='fas fa-lock'></i>";
+                inputItem.disabled = true;
+            }
+        });
+        botonRemover.addEventListener("click", function(){
+            contenedor.removeChild(divNuevo);
+            // divNuevo.removeChild(inputItem);
+            // divNuevo.removeChild(botonEditar);
+            // divNuevo.removeChild(botonRemover);
+        });
+    }
 }
+
+// trabajo asincrónico 6
+
+function chequearInput () {
+    if(inputPrincipal.value){
+        let newInput = new Item(inputPrincipal.value);
+        inputPrincipal.value = "";
+    }
+};
+
+botonAgregar.addEventListener("click", function(){
+    chequearInput();
+});
